@@ -1,6 +1,7 @@
 <template>
     <v-layout class="d-block">
         <Header />
+        <v-divider></v-divider>
         <div class="d-flex dif" height="100">
             <v-navigation-drawer>
                 <Lista />
@@ -9,7 +10,10 @@
                 <Chat />
             </v-main>
             <v-navigation-drawer right>
-                <v-list>
+                <v-list class="pa-0">
+                    <v-card>
+                        <v-card-title>Contatos</v-card-title>
+                    </v-card>
                     <Lista />
                 </v-list>
             </v-navigation-drawer>
@@ -42,6 +46,7 @@ export default {
 .dif {
     height: 100vh;
 }
+
 .absolute {
     position: absolute;
     bottom: 0;
