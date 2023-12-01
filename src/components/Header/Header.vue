@@ -14,7 +14,7 @@
             <v-menu activator="#slot" offset-y>
                 <v-list>
                     <v-list-item>
-                        <v-list-tile-title>
+                        <v-list-tile-title to="/perfil">
                            Perfil
                         </v-list-tile-title>
                     </v-list-item>

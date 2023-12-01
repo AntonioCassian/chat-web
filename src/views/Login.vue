@@ -8,12 +8,21 @@
         <v-sheet width="50%">
             <Title title="Login" />
             <v-form>
-              <v-text-field label="Username"></v-text-field>
-              <v-text-field label="Password"></v-text-field>
-              <v-btn color="primary">Login</v-btn>
+              <v-text-field
+              type="text"
+              label="Username"
+              v-model="user.username"
+              ></v-text-field>
+              <v-text-field 
+              type="password"
+              label="Password"
+              v-model="user.password"
+              ></v-text-field>
+              <v-btn color="primary" to="/">Login</v-btn>
             </v-form>
           </v-sheet>
           <v-btn text to="/register" class="text-lowercase plain mt-6">Click-me here and Resgister!</v-btn>
+          usuario: {{user.username}}, {{ user.password }}
       </v-col>
     </v-row>
   </template>
@@ -22,8 +31,15 @@
   import Title from '../components/Titles/Title.vue';
   export default {
     name: 'Login',
-    components: { Title }
-  
+    components: { Title },
+    data: () => {
+      return {
+        user:{
+        username: '',
+        password: ''
+      }
+      };
+    }
   
   }
   </script>
