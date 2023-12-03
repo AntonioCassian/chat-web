@@ -33,8 +33,6 @@ export default {
     data: () => ({
         password: 'Password',
         icons: [
-            'mdi-navigation-variant',
-
         ],
     }),
 

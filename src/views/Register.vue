@@ -28,7 +28,7 @@
 import Title from '../components/Titles/Title.vue';
 
 export default {
-  name: 'HelloWorld',
+  name: 'Register',
   components: { Title },
   data: () => {
     return {
