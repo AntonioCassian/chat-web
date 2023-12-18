@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row  no-gutters class="d-flex justify-center">
+        <v-row no-gutters class="d-flex justify-center">
             <v-card class="text-center" dot offset-x="11" offset-y="13" width="400">
                 <v-bagde>
                     <v-avatar class="text-center mt-8 mb-3" size="220">
@@ -16,7 +16,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-    name: 'Perfil'
+    name: 'Perfil',
+    data: () => {
+        return {
+            
+        }
+    },
+    ...mapGetters({
+        authenticated: 'auth/authenticated',
+        user: 'auth/user'
+    })
 }
 </script>

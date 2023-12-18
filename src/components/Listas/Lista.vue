@@ -1,6 +1,6 @@
 <template>
   <v-list lines="one" class="pa-0">
-    <v-list-item v-for="chat in user" :key="chat.id" class="contact">
+    <v-list-item v-for="(chat, index) in user" :key="index" class="contact" :to="`/${chat.id}/chat`">
       <v-list-item-avatar>
         <v-img :alt="`${chat.Photos[0].filename} avatar`" :src="chat.Photos[0].url"></v-img>
         <v-icon v-if="!chat.Photos[0].url" style="font-size: 42px;">mdi-account-circle-outline</v-icon>
@@ -18,12 +18,16 @@ export default {
   data: () => ({
     user: [],
   }),
-  mounted() {
-    this.$http.get('/user')
+  /**created() {
+    try{
+      this.$http.get('/user')
       .then(
-        res => { console.log("ok:", this.user = res.data) }
+        res => { console.log(this.user = res.data) }
       )
-  }
+    } catch(err) {
+      console.log(err)
+    }
+  } */
 } 
 </script>
 

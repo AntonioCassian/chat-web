@@ -1,0 +1,99 @@
+import axios from 'axios';
+
+const auth = () => {
+    const token = getLocalToken();
+    if (!token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
+    return token
+    
+}
+
+const setLocalToken = token => {
+    localStorage.setItem('token', token)
+}
+const deleteToken = () => {
+    localStorage.removeItem('token')
+}
+
+const getLocalToken = () => {
+    localStorage.getItem('token')
+}
+
+
+export default {
+    namespaced: true,
+    state: {
+        user: null,
+        token: null
+    },
+
+    getters: {
+        isAuthenticated: token => !!token
+    },
+
+    mutations: {
+        SET_USER(state, payload) {
+            state.user = payload
+        },
+        SET_TOKEN(state, payload) {
+            state.token = payload
+        }
+    },
+
+    actions: {
+        ActionSetUser({ commit }, payload) {
+            commit('SET_USER', payload)
+        },
+        ActionSetToken({ commit }, payload) {
+            auth(payload)
+            setLocalToken(payload)
+            commit('SET_TOKEN', payload)
+        },
+        async ActionLogin({ dispatch }, payload) {
+            await axios.post('/tokens', payload)
+                .then(response => {
+                    dispatch('ActionSetUser', response.data.user)
+                    dispatch('ActionSetToken', response.data.token)
+                })
+                .catch(error => {
+                    console.error('Erro na requisição de login:', error.response.data);
+                });
+        },
+        ActionLogout({ dispatch }) {
+            auth('')
+            deleteToken()
+            dispatch('ActionSetUser', null)
+            dispatch('ActionSetToken', null)
+        },
+        ActionCheckToken({ dispatch, state }) {
+            if (state.token) {
+                return Promise.resolve(state.token)
+            }
+            const token = getLocalToken();
+            if (token) {
+                auth(token);
+            }
+
+            if (!token) {
+                return Promise.reject(new Error('Token Invalid'))
+            }
+
+            dispatch('ActionSetToken', token)
+            return dispatch('ActionSession')
+        },
+        ActionSession({ dispatch }) {
+            // eslint-disable-next-line no-async-promise-executor
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const { data: { user } } = await axios.get('/tokens')
+                    dispatch('ActionSetUser', user)
+                    resolve()
+                } catch (err) {
+                    dispatch('ActionLogout')
+                    reject(err)
+                }
+            })
+        },
+    },
+}

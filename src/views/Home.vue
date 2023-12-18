@@ -7,6 +7,13 @@
                 <Lista />
             </v-navigation-drawer>
             <v-main class="d-flex align-center justify-center" style="width: 350px;">
+                <template >
+                    <ul>
+                        <li v-for="ust in user" :key="ust.id">
+                        {{ust.username}}
+                        </li>
+                    </ul>
+                </template>
                 <Chat />
             </v-main>
             <v-navigation-drawer right>
@@ -27,15 +34,24 @@
 import Header from '@/components/Header/Header.vue';
 import Lista from '@/components/Listas/Lista.vue';
 import Chat from '@/components/Main/Chat.vue';
+import { mapState,  } from 'vuex';
 export default {
     name: 'Home',
+    data: () => {
+        return {
+            ust: []
+        }
+    },
     components: { Header, Lista, Chat },
-    data: () => ({
-        password: 'Password',
-        icons: [
-        ],
-    }),
-
+    computed: {
+        ...mapState({
+            user: state => state.auth.user
+        }),
+        /*...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user'
+        })*/
+    }
 
 }
 </script>

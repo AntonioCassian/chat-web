@@ -13,12 +13,12 @@
             </v-btn>
             <v-menu activator="#slot" offset-y>
                 <v-list>
-                    <v-list-item>
-                        <v-list-tile-title to="/perfil">
+                    <v-list-item to="/perfil">
+                        <v-list-tile-title>
                            Perfil
                         </v-list-tile-title>
                     </v-list-item>
-                    <v-list-item to="/login">
+                    <v-list-item @click="logout()">
                         <v-list-tile-title >
                             Sair
                         </v-list-tile-title>
@@ -30,9 +30,15 @@
 </template>
 
 <script>
-    //import { mdiMenu } from '@mdi/js';
-    
+    import { mapActions } from 'vuex';
      export default {
+        methods: {
+            ...mapActions(['ActionLogout']),
+            logout () {
+                this.ActionLogout()
+                this.$router.push('/login')
+            }
+        }
        
      }
 </script>
